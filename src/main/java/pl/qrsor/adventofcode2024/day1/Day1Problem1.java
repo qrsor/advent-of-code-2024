@@ -10,14 +10,7 @@ public class Day1Problem1
 		lists.leftList().sort(Comparator.naturalOrder());
 		lists.rightList().sort(Comparator.naturalOrder());
 
-		var result = 0;
-
-		while (!lists.leftList().isEmpty())
-		{
-			result += Math.abs(lists.leftList().removeFirst() - lists.rightList().removeFirst());
-		}
-
-		return result;
+		return lists.leftList().stream().reduce(0, (result, element) -> result + Math.abs(element- lists.rightList().removeFirst()));
 	}
 
 	public int solve(String filePath)
