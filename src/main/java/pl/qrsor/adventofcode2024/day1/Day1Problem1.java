@@ -1,4 +1,4 @@
-package pl.qrsor.adventofcode2024;
+package pl.qrsor.adventofcode2024.day1;
 
 import java.util.Comparator;
 
