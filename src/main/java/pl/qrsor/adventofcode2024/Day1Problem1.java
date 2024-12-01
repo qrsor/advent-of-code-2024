@@ -1,17 +1,7 @@
 package pl.qrsor.adventofcode2024;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.List;
 
-
-record ListPair(List<Integer> leftList, List<Integer> rightList)
-{
-}
 
 public class Day1Problem1
 {
@@ -32,51 +22,7 @@ public class Day1Problem1
 
 	public int solve(String filePath)
 	{
-		// read data
-		List<String> rawData = readFile(filePath);
-
-		// init lists
-		var lists = parseRawData(rawData);
-
-		// calculate result
-		return totalDistance(lists);
-	}
-
-	private ListPair parseRawData(List<String> rawData)
-	{
-		var leftList = new ArrayList<Integer>();
-		var rightList = new ArrayList<Integer>();
-
-		rawData.forEach(line -> {
-			var numbers = line.split(" {3}");
-
-			leftList.add(Integer.valueOf(numbers[0]));
-			rightList.add(Integer.valueOf(numbers[1]));
-		});
-
-		return new ListPair(leftList, rightList);
-	}
-
-	private List<String> readFile(String filePath)
-	{
-		var data = new ArrayList<String>();
-
-		File resourceFile = new File(Day1Problem1.class.getClassLoader().getResource(filePath).getFile());
-
-		try (BufferedReader br = new BufferedReader(new FileReader(resourceFile)))
-		{
-			String line;
-			while ((line = br.readLine()) != null)
-			{
-				data.add(line);
-			}
-		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
-		}
-
-		return data;
+		return totalDistance(ListsInput.readInput(filePath));
 	}
 
 	public static void main(String[] args)
