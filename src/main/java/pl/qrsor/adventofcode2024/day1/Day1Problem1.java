@@ -15,7 +15,7 @@ public class Day1Problem1
 
 	public int solve(String filePath)
 	{
-		return totalDistance(ListsInput.readInput(filePath));
+		return totalDistance(ColumnListInput.readInput(filePath));
 	}
 
 	public static void main(String[] args)

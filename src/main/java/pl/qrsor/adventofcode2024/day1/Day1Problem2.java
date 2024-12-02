@@ -9,7 +9,7 @@ public class Day1Problem2 {
     }
 
     public int solve(String filePath) {
-        return similarityScore(ListsInput.readInput(filePath));
+        return similarityScore(ColumnListInput.readInput(filePath));
     }
 
     private int similarityScore(ListPair listPair) {
