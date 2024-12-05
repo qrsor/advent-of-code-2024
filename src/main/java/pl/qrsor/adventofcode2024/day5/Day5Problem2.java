@@ -28,7 +28,7 @@ public class Day5Problem2 {
                     wasFixed = true;
                     update.set(i, rightItem);
                     update.set(i + 1, leftItem);
-                    i = 0;
+                    i = -1;
                 }
             }
             if (wasFixed) {
