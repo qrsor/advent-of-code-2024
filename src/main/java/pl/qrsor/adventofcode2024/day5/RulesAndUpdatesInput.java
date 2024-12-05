@@ -5,6 +5,7 @@ import pl.qrsor.adventofcode2024.Input;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class RulesAndUpdatesInput {
     static RulesAndUpdates readInput(String filePath) {
@@ -26,7 +27,7 @@ public class RulesAndUpdatesInput {
                 var numbers = line.split("\\|");
                 rules.add(new Rule(Integer.parseInt(numbers[0]), Integer.parseInt(numbers[1])));
             } else {
-                updates.add(Arrays.stream(line.split(",")).map(Integer::parseInt).toList());
+                updates.add(Arrays.stream(line.split(",")).map(Integer::parseInt).collect(Collectors.toCollection(ArrayList::new)));
             }
         }
 
