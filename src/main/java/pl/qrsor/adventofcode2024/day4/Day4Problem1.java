@@ -1,12 +1,14 @@
 package pl.qrsor.adventofcode2024.day4;
 
+import pl.qrsor.adventofcode2024.CharMatrixInput;
+
 public class Day4Problem1 {
 
     private static final int SEARCH_WORD_LENGTH = 4;
 
-    record FourLetters(char letter1, char letter2, char letter3, char letter4) {
-    };
-
+    public static void main(String[] args) {
+        System.out.println("Result " + new Day4Problem1().solve("day4-problem1-input.csv"));
+    }
 
     public int countXmas(char[][] rows) {
 
@@ -120,7 +122,6 @@ public class Day4Problem1 {
         return countXmas(CharMatrixInput.readInput(filePath));
     }
 
-    public static void main(String[] args) {
-        System.out.println("Result " + new Day4Problem1().solve("day4-problem1-input.csv"));
+    record FourLetters(char letter1, char letter2, char letter3, char letter4) {
     }
 }

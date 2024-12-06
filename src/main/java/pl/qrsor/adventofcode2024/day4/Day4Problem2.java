@@ -1,7 +1,13 @@
 package pl.qrsor.adventofcode2024.day4;
 
+import pl.qrsor.adventofcode2024.CharMatrixInput;
+
 public class Day4Problem2 {
-private static final int SEARCH_WORD_LENGTH = 4;
+    private static final int SEARCH_WORD_LENGTH = 4;
+
+    public static void main(String[] args) {
+        System.out.println("Result " + new Day4Problem2().solve("day4-problem1-input.csv"));
+    }
 
     public int countXmas(char[][] rows) {
 
@@ -13,13 +19,13 @@ private static final int SEARCH_WORD_LENGTH = 4;
             for (int j = 0; j < row.length; j++) {
                 var letter = row[j];
                 if (letter == 'A') {
-                    if (checkX(rows, i, j, 'M','M','S','S')) {
+                    if (checkX(rows, i, j, 'M', 'M', 'S', 'S')) {
                         result++;
-                    } else if (checkX(rows, i, j, 'M','S','M','S')) {
+                    } else if (checkX(rows, i, j, 'M', 'S', 'M', 'S')) {
                         result++;
-                    } else if  (checkX(rows, i, j, 'S','M','S','M')) {
+                    } else if (checkX(rows, i, j, 'S', 'M', 'S', 'M')) {
                         result++;
-                    } else if (checkX(rows, i, j, 'S','S','M','M')) {
+                    } else if (checkX(rows, i, j, 'S', 'S', 'M', 'M')) {
                         result++;
                     }
                 }
@@ -30,7 +36,7 @@ private static final int SEARCH_WORD_LENGTH = 4;
 
     private boolean checkX(char[][] rows, int rowIndex, int aIndex, char topLeft, char topRight, char bottomLeft, char bottomRight) {
         var row = rows[rowIndex];
-        if (aIndex == 0 || aIndex == row.length-1 || rowIndex == 0 || rowIndex == rows.length-1) { // won't fit in the array
+        if (aIndex == 0 || aIndex == row.length - 1 || rowIndex == 0 || rowIndex == rows.length - 1) { // won't fit in the array
             return false;
         }
 
@@ -42,9 +48,5 @@ private static final int SEARCH_WORD_LENGTH = 4;
 
     public int solve(String filePath) {
         return countXmas(CharMatrixInput.readInput(filePath));
-    }
-
-    public static void main(String[] args) {
-        System.out.println("Result " + new Day4Problem2().solve("day4-problem1-input.csv"));
     }
 }

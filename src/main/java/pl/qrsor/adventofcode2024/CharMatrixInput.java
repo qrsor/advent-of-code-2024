@@ -1,11 +1,9 @@
-package pl.qrsor.adventofcode2024.day4;
-
-import pl.qrsor.adventofcode2024.Input;
+package pl.qrsor.adventofcode2024;
 
 import java.util.List;
 
 public class CharMatrixInput {
-    static char[][] readInput(String filePath) {
+    public static char[][] readInput(String filePath) {
         List<String> strings = Input.readFile(filePath);
 
         return parseStrings(strings);

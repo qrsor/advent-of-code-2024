@@ -1,6 +1,7 @@
 package pl.qrsor.adventofcode2024.day4;
 
 import org.junit.jupiter.api.Test;
+import pl.qrsor.adventofcode2024.CharMatrixInput;
 
 import java.util.List;
 
