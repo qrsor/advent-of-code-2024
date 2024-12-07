@@ -2,14 +2,14 @@ package pl.qrsor.adventofcode2024.day6;
 
 import pl.qrsor.adventofcode2024.CharMatrixInput;
 
-class Day6Problem1 {
+class Day6Problem2 {
 
-    public static void main(String[] args) {
-        System.out.println("Result " + new Day6Problem1().solve("day6-problem1-input.csv"));
+    public static void main(String[] args) throws WalkingInCirclesException {
+        System.out.println("Result " + new Day6Problem2().solve("day6-problem1-input.csv"));
     }
 
-    int countDistinctVisitedPositions(char[][] map) {
-        var guard = new Guard(map);
+    int countDistinctVisitedPositions(char[][] map) throws WalkingInCirclesException {
+        var guard = new CyclingGuard(map);
 
         var journeyContinues = true;
         while (journeyContinues) {
@@ -20,10 +20,10 @@ class Day6Problem1 {
             }
         }
 
-        return guard.tellPositionsWalked();
+        return guard.tellObstaclesAdded();
     }
 
-    int solve(String filePath) {
+    int solve(String filePath) throws WalkingInCirclesException {
         return countDistinctVisitedPositions(CharMatrixInput.readInput(filePath));
     }
 
