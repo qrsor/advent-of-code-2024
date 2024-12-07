@@ -28,10 +28,17 @@ class FastGuard {
 
     private void markCurrentPositionWalked() throws WalkingInCirclesException {
         if (footsteps.contains(new Footstep(position, direction))) {
+
+            drawFootsteps();
+
             throw new WalkingInCirclesException();
         } else {
             footsteps.add(new Footstep(position, direction));
         }
+    }
+
+    private void drawFootsteps() {
+        
     }
 
     void walk() throws CannotWalkException, WalkingInCirclesException {

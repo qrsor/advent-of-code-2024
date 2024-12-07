@@ -29,6 +29,6 @@ class Day6Problem2Test {
         var result = new Day6Problem2().solve("day6-problem1-input3");
 
         //then
-        assertEquals(1, result);
+        assertEquals(3, result);
     }
 }

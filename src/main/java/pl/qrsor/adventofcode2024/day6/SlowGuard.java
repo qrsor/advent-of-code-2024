@@ -5,7 +5,6 @@ import java.util.Set;
 
 class SlowGuard {
 
-    private final Set<Position> walkedPositions = new HashSet<>();
     private final Set<Position> obstacles = new HashSet<>();
     private final int rowCount;
     private final int colCount;
@@ -18,7 +17,6 @@ class SlowGuard {
         this.colCount = map[0].length;
 
         this.analyzeMap(map);
-        markPositionWalked();
     }
 
     private void analyzeMap(char[][] map) {
@@ -32,10 +30,6 @@ class SlowGuard {
                 }
             }
         }
-    }
-
-    private void markPositionWalked() {
-        walkedPositions.add(this.position);
     }
 
     void walk() throws CannotWalkException {
@@ -64,8 +58,6 @@ class SlowGuard {
         ) {
             throw new CannotWalkException();
         }
-
-        markPositionWalked();
     }
 
     private boolean checkIfFastGuardLoops() {
