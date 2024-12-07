@@ -9,7 +9,7 @@ class Day6Problem2 {
     }
 
     int countDistinctVisitedPositions(char[][] map) throws WalkingInCirclesException {
-        var guard = new CyclingGuard(map);
+        var guard = new SlowGuard(map);
 
         var journeyContinues = true;
         while (journeyContinues) {

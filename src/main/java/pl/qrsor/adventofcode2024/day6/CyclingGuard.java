@@ -26,14 +26,16 @@ class CyclingGuard {
         markPositionWalked();
     }
 
-    CyclingGuard(List<Footstep> footsteps, Set<Position> obstacles, int rowCount, int colCount, Direction direction) {
-        this.footsteps.addAll(footsteps);
+    CyclingGuard(List<Footstep> footsteps, Set<Position> obstacles, int rowCount, int colCount, Direction direction) throws WalkingInCirclesException {
+//        this.footsteps.addAll(footsteps);
         this.obstacles.addAll(obstacles);
         this.rowCount = rowCount;
         this.colCount = colCount;
         this.direction = direction;
         this.position = footsteps.getLast().position();
         this.name = "Peon";
+
+        markPositionWalked();
     }
 
     private void analyzeMap(char[][] map) {
@@ -50,8 +52,10 @@ class CyclingGuard {
     }
 
     private void markPositionWalked() throws WalkingInCirclesException {
-//        System.out.println(name + " " + step++ + ": " + position + " " + direction.toString() + " walked");
         if (footsteps.contains(new Footstep(position, direction))) {
+//            for (Footstep footstep : footsteps) {
+//                System.out.println(footstep);
+//            }
             throw new WalkingInCirclesException();
         } else {
             footsteps.add(new Footstep(position, direction));
@@ -70,16 +74,12 @@ class CyclingGuard {
         verifyCanWalk();
         markPositionWalked();
 
-//        if (lookForFootstepsIfTurnWasMade()) {
-//            addObstacleInFront();
-//        }
-
         if (name.equals("Boss") && wouldGuardWalkInCirclesIfBlocked()) {
             addObstacleInFront();
         }
     }
 
-    private boolean wouldGuardWalkInCirclesIfBlocked() {
+    private boolean wouldGuardWalkInCirclesIfBlocked() throws WalkingInCirclesException {
         var obstaclesWithExtraObstacle = new HashSet<>(obstacles);
 
         var newObstaclePosition = calculateNextPosition(direction);
@@ -88,7 +88,8 @@ class CyclingGuard {
         CyclingGuard ghostGuard = new CyclingGuard(footsteps, obstaclesWithExtraObstacle, rowCount, colCount, direction);
 
         var ghostSteps = 0;
-        while (ghostSteps < 10000) {
+//        while (ghostSteps < 10000) {
+        while (true) {
             try {
                 ghostGuard.walk();
                 ghostSteps++;
@@ -99,7 +100,7 @@ class CyclingGuard {
             }
         }
 
-        return false;
+//        return false;
     }
 
     private Position calculateNextPosition(Direction direction) {
@@ -111,30 +112,6 @@ class CyclingGuard {
         };
     }
 
-//    private Position calculateNextPositionFrom(Position position, Direction direction) {
-//        return switch (direction) {
-//            case UP -> new Position(position.row() - 1, position.col());
-//            case RIGHT -> new Position(position.row(), position.col() + 1);
-//            case DOWN -> new Position(position.row() + 1, position.col());
-//            case LEFT -> new Position(position.row(), position.col() - 1);
-//        };
-//    }
-
-//    private boolean lookForFootstepsIfTurnWasMade() {
-//        var lookingDirection = lookRight();
-//
-//        Position nextPosition = position;
-//        do {
-//            nextPosition = calculateNextPositionFrom(nextPosition, lookingDirection);
-//            var obstacleAhead = obstacles.contains(nextPosition);
-//            if (!obstacleAhead && footsteps.contains(new Footstep(nextPosition, lookingDirection))) {
-//                return true;
-//            }
-//        } while (nextPosition.isOnMap(rowCount, colCount));
-//
-//        return false;
-//    }
-
     private void verifyCanWalk() throws CannotWalkException {
         if (position.isOffMap(rowCount, colCount)) {
             throw new CannotWalkException();
@@ -145,7 +122,6 @@ class CyclingGuard {
         var newObstaclePosition = calculateNextPosition(direction);
         if (!obstacles.contains(newObstaclePosition)) {
             addedObstacles.add(newObstaclePosition);
-//            System.out.println(newObstaclePosition + " obstacle added");
         }
     }
 
@@ -163,10 +139,6 @@ class CyclingGuard {
     }
 
     int tellObstaclesAdded() {
-//        System.out.println("addedObstacles");
-//        for (Position addedObstacle : addedObstacles) {
-//            System.out.println(addedObstacle);
-//        }
         return addedObstacles.size();
     }
 
