@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-class FastGuard {
+class FastGuard2 {
 
     private final int rowCount;
     private final int colCount;
@@ -15,16 +15,28 @@ class FastGuard {
     private Position position;
     private Direction direction;
 
-    FastGuard(int rowCount, int colCount, Footstep startFootstep, Set<Position> obstacles) throws WalkingInCirclesException {
-        this.rowCount = rowCount;
-        this.colCount = colCount;
-        this.position = startFootstep.position();
-        this.direction = startFootstep.comingFrom();
+    FastGuard2(char[][] map, Position extraObstacle) throws WalkingInCirclesException {
+        this.rowCount = map.length;
+        this.colCount = map[0].length;
 
-        this.obstacles.addAll(obstacles);
-        this.extraObstacle = calculateNextPosition(this.direction);
+        this.analyzeMap(map);
+
+        this.extraObstacle = extraObstacle;
         this.obstacles.add(extraObstacle);
         markCurrentPositionWalked();
+    }
+
+    private void analyzeMap(char[][] map) {
+        for (int row = 0; row < map.length; row++) {
+            for (int column = 0; column < map[row].length; column++) {
+                char tile = map[row][column];
+                if (tile == '#') {
+                    this.obstacles.add(new Position(row, column));
+                } else if (tile == '^') {
+                    this.position = new Position(row, column);
+                }
+            }
+        }
     }
 
 

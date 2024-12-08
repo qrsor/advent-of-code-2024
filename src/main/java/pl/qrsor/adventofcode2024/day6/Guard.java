@@ -73,6 +73,7 @@ class Guard {
     }
 
     int tellPositionsWalked() {
+
         return walkedPositions.size();
     }
 

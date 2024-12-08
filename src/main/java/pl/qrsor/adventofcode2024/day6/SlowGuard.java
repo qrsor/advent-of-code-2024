@@ -1,13 +1,19 @@
 package pl.qrsor.adventofcode2024.day6;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 class SlowGuard {
 
     private final Set<Position> obstacles = new HashSet<>();
     private final int rowCount;
     private final int colCount;
+    private final Set<Position> addedObstacles = new HashSet<>();
+    private final Set<Footstep> addedObstacleFootsteps = new HashSet<>();
+    private final List<Footstep> footsteps = new ArrayList<>();
     private int loopingFastGuards = 0;
     private Position position;
     private Direction direction = Direction.UP;
@@ -34,6 +40,8 @@ class SlowGuard {
 
     void walk() throws CannotWalkException {
 
+//        drawDebug();
+
         if (checkIfFastGuardLoops()) {
             loopingFastGuards++;
         }
@@ -58,6 +66,45 @@ class SlowGuard {
         ) {
             throw new CannotWalkException();
         }
+
+        markCurrentPositionWalked();
+    }
+
+    private void markCurrentPositionWalked() //throws WalkingInCirclesException {
+    {
+//        if (footsteps.contains(new Footstep(position, direction))) {
+//        System.out.println();
+//        System.out.println("Cycle detected at " + position);
+//        System.out.println();
+//            throw new WalkingInCirclesException();
+//        } else {
+        footsteps.add(new Footstep(position, direction));
+//        }
+    }
+
+    private void drawDebug() {
+        for (int i = 0; i < rowCount; i++) {
+            for (int j = 0; j < colCount; j++) {
+                Position drawnPosition = new Position(i, j);
+                if (obstacles.contains(drawnPosition)) {
+                    System.out.print("#");
+                } else if (position.equals(drawnPosition)) {
+                    System.out.print(switch (direction) {
+                        case UP -> "^";
+                        case RIGHT -> ">";
+                        case DOWN -> "v";
+                        case LEFT -> "<";
+                    });
+                } else {
+                    System.out.print(".");
+                }
+            }
+            System.out.println();
+        }
+
+        System.out.println();
+        System.out.println();
+        System.out.println();
     }
 
     private boolean checkIfFastGuardLoops() {
@@ -69,8 +116,9 @@ class SlowGuard {
             case LEFT -> new Position(position.row(), position.col() - 1);
         };
 
-        if (!obstacles.contains(nextPosition)) {
-
+        if (obstacles.contains(nextPosition) || nextPosition.isOffMap(rowCount, colCount)) {
+            return false;
+        } else {
             FastGuard fastGuard;
             try {
                 fastGuard = new FastGuard(rowCount, colCount, new Footstep(position, direction), obstacles);
@@ -84,13 +132,11 @@ class SlowGuard {
                 } catch (CannotWalkException e) {
                     return false;
                 } catch (WalkingInCirclesException e) {
+                    addedObstacles.add(nextPosition);
+                    addedObstacleFootsteps.add(new Footstep(nextPosition, direction));
                     return true;
                 }
-
             }
-
-        } else {
-            return false;
         }
     }
 
@@ -104,6 +150,10 @@ class SlowGuard {
     }
 
     public int tellObstaclesAdded() {
+        System.out.println("Added obstacles " + addedObstacles.size());
+        System.out.println("Added footprints " + addedObstacleFootsteps.size());
+        System.out.println("Footsteps " + footsteps.size());
+        System.out.println("Positions " + footsteps.stream().map(Footstep::position).collect(Collectors.toSet()).size());
         return loopingFastGuards;
     }
 }

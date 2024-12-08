@@ -5,10 +5,10 @@ import pl.qrsor.adventofcode2024.CharMatrixInput;
 class Day6Problem2 {
 
     public static void main(String[] args) throws WalkingInCirclesException {
-        System.out.println("Result " + new Day6Problem2().solve("day6-problem1-input.csv"));
+        System.out.println("Result " + new Day6Problem2().solve("day6-problem1-input"));
     }
 
-    int countDistinctVisitedPositions(char[][] map) throws WalkingInCirclesException {
+    int countObstaclesAdded(char[][] map) {
         var guard = new SlowGuard(map);
 
         var journeyContinues = true;
@@ -23,8 +23,8 @@ class Day6Problem2 {
         return guard.tellObstaclesAdded();
     }
 
-    int solve(String filePath) throws WalkingInCirclesException {
-        return countDistinctVisitedPositions(CharMatrixInput.readInput(filePath));
+    int solve(String filePath) {
+        return countObstaclesAdded(CharMatrixInput.readInput(filePath));
     }
 
 
