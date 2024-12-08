@@ -16,7 +16,7 @@ class AntennaTest {
         Dimensions mapDimensions = new Dimensions(2, 2);
 
         //when
-        var result = antennaA.resonates(antennaB, mapDimensions);
+        var result = antennaA.resonates(antennaB, mapDimensions, 1);
 
         //then
         assertThat(result).isEmpty();
@@ -27,17 +27,24 @@ class AntennaTest {
         //given
         var antennaA = new Antenna('X', new Position(0, 1));
         var antennaB = new Antenna('X', new Position(0, 2));
-        Dimensions mapDimensions = new Dimensions(4, 4);
+        Dimensions mapDimensions = new Dimensions(4, 5);
 
         //when
-        var result = antennaA.resonates(antennaB, mapDimensions);
-        var result2 = antennaB.resonates(antennaA, mapDimensions);
+        var result = antennaA.resonates(antennaB, mapDimensions, 1);
+        var result2 = antennaB.resonates(antennaA, mapDimensions, 1);
+        var result3 = antennaB.resonates(antennaA, mapDimensions, 10);
 
         //then
         Antinode expectedAntinode1 = new Antinode(new Position(0, 0));
         Antinode expectedAntinode2 = new Antinode(new Position(0, 3));
         assertThat(result).hasSameElementsAs(Set.of(expectedAntinode1, expectedAntinode2));
         assertThat(result2).hasSameElementsAs(Set.of(expectedAntinode1, expectedAntinode2));
+        assertThat(result3).hasSameElementsAs(Set.of(expectedAntinode1, expectedAntinode2,
+                new Antinode(new Position(0, 4)),
+                new Antinode(new Position(0, 1)),
+                new Antinode(new Position(0, 2))
+
+        ));
     }
 
     @Test
@@ -48,8 +55,8 @@ class AntennaTest {
         Dimensions mapDimensions = new Dimensions(4, 3);
 
         //when
-        var result = antennaA.resonates(antennaB, mapDimensions);
-        var result2 = antennaB.resonates(antennaA, mapDimensions);
+        var result = antennaA.resonates(antennaB, mapDimensions, 1);
+        var result2 = antennaB.resonates(antennaA, mapDimensions, 1);
 
         //then
         Antinode expectedAntinode1 = new Antinode(new Position(0, 0));
@@ -65,8 +72,8 @@ class AntennaTest {
         Dimensions mapDimensions = new Dimensions(4, 4);
 
         //when
-        var result = antennaA.resonates(antennaB, mapDimensions);
-        var result2 = antennaB.resonates(antennaA, mapDimensions);
+        var result = antennaA.resonates(antennaB, mapDimensions, 1);
+        var result2 = antennaB.resonates(antennaA, mapDimensions, 1);
 
         //then
         Antinode expectedAntinode1 = new Antinode(new Position(0, 0));
@@ -83,8 +90,8 @@ class AntennaTest {
         Dimensions mapDimensions = new Dimensions(3, 4);
 
         //when
-        var result = antennaA.resonates(antennaB, mapDimensions);
-        var result2 = antennaB.resonates(antennaA, mapDimensions);
+        var result = antennaA.resonates(antennaB, mapDimensions, 1);
+        var result2 = antennaB.resonates(antennaA, mapDimensions, 1);
 
         //then
         Antinode expectedAntinode1 = new Antinode(new Position(0, 0));
@@ -100,8 +107,8 @@ class AntennaTest {
         Dimensions mapDimensions = new Dimensions(4, 4);
 
         //when
-        var result = antennaA.resonates(antennaB, mapDimensions);
-        var result2 = antennaB.resonates(antennaA, mapDimensions);
+        var result = antennaA.resonates(antennaB, mapDimensions, 1);
+        var result2 = antennaB.resonates(antennaA, mapDimensions, 1);
 
         //then
         Antinode expectedAntinode1 = new Antinode(new Position(0, 0));
@@ -118,8 +125,8 @@ class AntennaTest {
         Dimensions mapDimensions = new Dimensions(3, 3);
 
         //when
-        var result = antennaA.resonates(antennaB, mapDimensions);
-        var result2 = antennaB.resonates(antennaA, mapDimensions);
+        var result = antennaA.resonates(antennaB, mapDimensions, 1);
+        var result2 = antennaB.resonates(antennaA, mapDimensions, 1);
 
         //then
         Antinode expectedAntinode1 = new Antinode(new Position(0, 0));
@@ -135,8 +142,8 @@ class AntennaTest {
         Dimensions mapDimensions = new Dimensions(4, 4);
 
         //when
-        var result = antennaA.resonates(antennaB, mapDimensions);
-        var result2 = antennaB.resonates(antennaA, mapDimensions);
+        var result = antennaA.resonates(antennaB, mapDimensions, 1);
+        var result2 = antennaB.resonates(antennaA, mapDimensions, 1);
 
         //then
         Antinode expectedAntinode1 = new Antinode(new Position(0, 3));
@@ -153,8 +160,8 @@ class AntennaTest {
         Dimensions mapDimensions = new Dimensions(4, 3);
 
         //when
-        var result = antennaA.resonates(antennaB, mapDimensions);
-        var result2 = antennaB.resonates(antennaA, mapDimensions);
+        var result = antennaA.resonates(antennaB, mapDimensions, 1);
+        var result2 = antennaB.resonates(antennaA, mapDimensions, 1);
 
         //then
         Antinode expectedAntinode1 = new Antinode(new Position(3, 0));

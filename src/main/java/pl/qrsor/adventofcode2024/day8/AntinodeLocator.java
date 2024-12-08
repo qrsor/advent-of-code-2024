@@ -5,12 +5,12 @@ import java.util.Set;
 
 public class AntinodeLocator {
 
-    int countAntinodes(char[][] map) {
+    int countAntinodes(char[][] map, int antinodesLimitPerDirection) {
         var antennas = analyzeMap(map);
 
         int rowCount = map.length;
         int colCount = map[0].length;
-        var antinodes = locateAntinodes(antennas, new Dimensions(rowCount, colCount));
+        var antinodes = locateAntinodes(antennas, new Dimensions(rowCount, colCount), antinodesLimitPerDirection);
 
         return antinodes.size();
     }
@@ -31,7 +31,7 @@ public class AntinodeLocator {
         return antennas;
     }
 
-    Set<Antinode> locateAntinodes(Set<Antenna> antennas, Dimensions mapDimensions) {
+    Set<Antinode> locateAntinodes(Set<Antenna> antennas, Dimensions mapDimensions, int antinodesLimitPerDirection) {
         var antennasList = antennas.stream().toList();
         var result = new HashSet<Antinode>();
         for (int i = 0; i < antennas.size() - 1; i++) {
@@ -39,7 +39,7 @@ public class AntinodeLocator {
                 var antenna1 = antennasList.get(i);
                 var antenna2 = antennasList.get(j);
                 try {
-                    result.addAll(antenna1.resonates(antenna2, mapDimensions));
+                    result.addAll(antenna1.resonates(antenna2, mapDimensions, antinodesLimitPerDirection));
                 } catch (CannotResonateWithItself e) {
                     System.out.println("Cannot resonate with itself " + antenna1);
                 }
