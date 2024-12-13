@@ -1,5 +1,8 @@
 package pl.qrsor.adventofcode2024.day8;
 
+import pl.qrsor.adventofcode2024.Dimensions;
+import pl.qrsor.adventofcode2024.Position;
+
 import java.util.HashSet;
 import java.util.Set;
 

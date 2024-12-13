@@ -2,6 +2,8 @@ package pl.qrsor.adventofcode2024.day8;
 
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import pl.qrsor.adventofcode2024.Dimensions;
+import pl.qrsor.adventofcode2024.Position;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

@@ -1,8 +1,8 @@
-package pl.qrsor.adventofcode2024.day8;
+package pl.qrsor.adventofcode2024;
 
-record Position(int row, int col) {
+public record Position(int row, int col) {
 
-    boolean isOnMap(Dimensions dimensions) {
+    public boolean isOnMap(Dimensions dimensions) {
         return row >= 0
                 && row < dimensions.rowCount()
                 && col >= 0

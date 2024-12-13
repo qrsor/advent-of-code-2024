@@ -1,6 +1,8 @@
 package pl.qrsor.adventofcode2024.day8;
 
 import org.junit.jupiter.api.Test;
+import pl.qrsor.adventofcode2024.Dimensions;
+import pl.qrsor.adventofcode2024.Position;
 
 import java.util.Set;
 
