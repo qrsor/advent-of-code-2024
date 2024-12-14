@@ -30,4 +30,8 @@ public class TeleportingRobot {
 
         return startPos = new Position(row, col);
     }
+
+    public Position position() {
+        return startPos;
+    }
 }
