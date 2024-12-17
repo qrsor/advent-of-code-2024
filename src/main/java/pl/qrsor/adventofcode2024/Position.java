@@ -9,7 +9,7 @@ public record Position(int row, int col) {
                 && col < dimensions.colCount();
     }
 
-    public boolean isOffMap(int rowCount, int colCount) {
-        return false; //TODO
+    public boolean isOffMap(Dimensions dimensions) {
+        return !isOnMap(dimensions);
     }
 }
