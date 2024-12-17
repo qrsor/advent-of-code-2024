@@ -1,5 +1,7 @@
 package pl.qrsor.adventofcode2024.day6;
 
+import pl.qrsor.adventofcode2024.Direction;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;

@@ -8,4 +8,8 @@ public record Position(int row, int col) {
                 && col >= 0
                 && col < dimensions.colCount();
     }
+
+    public boolean isOffMap(int rowCount, int colCount) {
+        return false; //TODO
+    }
 }

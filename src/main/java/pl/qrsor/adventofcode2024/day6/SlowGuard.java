@@ -1,5 +1,7 @@
 package pl.qrsor.adventofcode2024.day6;
 
+import pl.qrsor.adventofcode2024.Direction;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -17,6 +19,7 @@ class SlowGuard {
     private int loopingFastGuards = 0;
     private Position position;
     private Direction direction = Direction.UP;
+    private Position startPosition;
 
     SlowGuard(char[][] map) {
         this.rowCount = map.length;
@@ -33,6 +36,7 @@ class SlowGuard {
                     this.obstacles.add(new Position(row, column));
                 } else if (tile == '^') {
                     this.position = new Position(row, column);
+                    this.startPosition = new Position(row, column);
                 }
             }
         }
