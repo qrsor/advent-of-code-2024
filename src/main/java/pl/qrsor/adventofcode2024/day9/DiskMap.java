@@ -16,24 +16,9 @@ class DiskMap {
             IntStream.range(0, number).forEach((int j) -> diskMap.add(id));
         });
 
-        System.out.println(">>>>>>>>>>>>>>>>>>");
-        System.out.println(">>>>>>>>>>>>>>>>>>");
-        System.out.println(">>>>>>>>>>>>>>>>>>");
         System.out.println(diskMap);
-
-        System.out.println(">>>>>>>>>>>>>>>>>>");
-        System.out.println(">>>>>>>>>>>>>>>>>>");
-        System.out.println(">>>>>>>>>>>>>>>>>>");
         defragment();
-
-        System.out.println(">>>>>>>>>>>>>>>>>>");
-        System.out.println(">>>>>>>>>>>>>>>>>>");
-        System.out.println(">>>>>>>>>>>>>>>>>>");
         System.out.println(diskMap);
-
-        System.out.println(">>>>>>>>>>>>>>>>>>");
-        System.out.println(">>>>>>>>>>>>>>>>>>");
-        System.out.println(">>>>>>>>>>>>>>>>>>");
     }
 
     private void defragment() {
@@ -53,24 +38,6 @@ class DiskMap {
                 rightPointer--;
             }
         }
-
-
-        System.out.println(">>>>>>>>>>>>>>>>>>");
-        System.out.println(">>>>>>>>>>>>>>>>>>");
-        System.out.println(">>>>>>>>>>>>>>>>>>");
-        System.out.println(diskMap);
-
-        System.out.println(">>>>>>>>>>>>>>>>>>");
-        System.out.println(">>>>>>>>>>>>>>>>>>");
-        System.out.println(">>>>>>>>>>>>>>>>>>");
-
-//        rightPointer = diskMap.size() - 1;
-//        var rightNum = diskMap.get(rightPointer);
-//        while (rightNum < 0) {
-//            diskMap.removeLast();
-//            rightPointer--;
-//            rightNum = diskMap.get(rightPointer);
-//        }
     }
 
     BigInteger checksum() {
