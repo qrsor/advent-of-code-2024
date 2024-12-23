@@ -5,10 +5,18 @@ import pl.qrsor.adventofcode2024.Dimensions;
 import pl.qrsor.adventofcode2024.Position;
 
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Day12Problem1 {
+
+    private final Set<Position> visitedPlots = new HashSet<Position>();
+    private Dimensions farmDimensions;
+    private char[][] farm;
+
+    public static void main(String[] args) {
+        System.out.println("Result " + new Day12Problem1().solve("day12-problem1-input-1"));
+    }
 
     public int solve(String filePath) {
         return calculateFencePrice(CharMatrixInput.readInput(filePath));
@@ -16,93 +24,54 @@ public class Day12Problem1 {
 
     private int calculateFencePrice(char[][] farm) {
 
-        var visitedPlots = new HashSet<Plot>();
+        this.farm = farm;
+        farmDimensions = new Dimensions(farm.length, farm[0].length);
+
 
         var result = 0;
 
-        var farmDimensions = new Dimensions(farm.length, farm[0].length);
-
         for (int row = 0; row < farmDimensions.rowCount(); row++) {
             for (int col = 0; col < farmDimensions.colCount(); col++) {
-                Plot plot = new Plot(new Position(row, col), farmDimensions, visitedPlots, farm, farm[row][col]);
-                var areaAndPerimeter = plot.countAreaAndPerimeter(1);
+                var plotPosition = new Position(row, col);
+                if (!visitedPlots.contains(plotPosition)) {
+                    visitedPlots.add(plotPosition);
+                    AtomicInteger area = new AtomicInteger(1);
+                    var perimeter = visit(plotPosition, area);
 
-                result += areaAndPerimeter.get().area() * areaAndPerimeter.get().perimeter();
+                    result += area.get() * perimeter;
+                }
             }
         }
 
         return result;
     }
 
-    static class Plot {
+    private int visit(Position plotPosition, AtomicInteger area) {
+        var perimeter = 0;
+        char type = getType(plotPosition);
 
-        private final Position position;
-        private final Dimensions farmDimensions;
-        private final Set<Plot> visitedPlots;
-        private final char[][] farm;
-        private final char type;
+        perimeter += visitAdjacentPlot(area, plotPosition.row(), plotPosition.col() - 1, type);
+        perimeter += visitAdjacentPlot(area, plotPosition.row(), plotPosition.col() + 1, type);
+        perimeter += visitAdjacentPlot(area, plotPosition.row() - 1, plotPosition.col(), type);
+        perimeter += visitAdjacentPlot(area, plotPosition.row() + 1, plotPosition.col(), type);
 
-        Plot(Position position, Dimensions farmDimensions, Set<Plot> visitedPlots, char[][] farm, char type) {
-            this.position = position;
-            this.farmDimensions = farmDimensions;
-            this.visitedPlots = visitedPlots;
-            this.farm = farm;
-            this.type = type;
+        return perimeter;
+    }
+
+    private int visitAdjacentPlot(AtomicInteger area, int row, int col, char type) {
+        var position = new Position(row, col);
+        if (!position.isOnMap(farmDimensions) || getType(position) != type) {
+            return 1;
+        } else if (!visitedPlots.contains(position)) {
+            visitedPlots.add(position);
+            area.incrementAndGet();
+            return visit(position, area);
         }
 
-        public Optional<AreaAndPerimeter> countAreaAndPerimeter(int area) {
-            if (visitedPlots.contains(this)) {
-                return Optional.empty();
-            }
+        return 0;
+    }
 
-            visitedPlots.add(this);
-
-            Optional<AreaAndPerimeter> left = getAreaAndPerimeter(area, position.row(), position().col() - 1);
-            Optional<AreaAndPerimeter> right = getAreaAndPerimeter(area, position.row(), position().col() + 1);
-            Optional<AreaAndPerimeter> top = getAreaAndPerimeter(area, position.row() - 1, position().col());
-            Optional<AreaAndPerimeter> down = getAreaAndPerimeter(area, position.row() + 1, position().col());
-
-            var rperimeter = 0;
-            var rarea = 0;
-            if (left.isPresent()) {
-                rperimeter += left.get().perimeter();
-                rarea += left.get().area();
-            }
-            if (right.isPresent()) {
-                rperimeter += right.get().perimeter();
-                rarea += right.get().area();
-            }
-            if (top.isPresent()) {
-                rperimeter += top.get().perimeter();
-                rarea += top.get().area();
-            }
-            if (down.isPresent()) {
-                rperimeter += down.get().perimeter();
-                rarea += left.get().area();
-            }
-
-
-            return Optional.of(new AreaAndPerimeter(rarea, rperimeter));
-        }
-
-        private Position position() {
-            return position;
-        }
-
-        private Optional<AreaAndPerimeter> getAreaAndPerimeter(int area, int row, int col) {
-            var position = new Position(row, col);
-            if (position.isOnMap(farmDimensions)) {
-                char type = farm[position.row()][position.col()];
-                if (type == this.type) {
-                    var plot = new Plot(position, farmDimensions, visitedPlots, farm, type);
-                    return plot.countAreaAndPerimeter(area + 1);
-                } else {
-                    return Optional.empty();
-                }
-
-            } else {
-                return Optional.of(new AreaAndPerimeter(area, 1));
-            }
-        }
+    private char getType(Position position) {
+        return farm[position.row()][position.col()];
     }
 }

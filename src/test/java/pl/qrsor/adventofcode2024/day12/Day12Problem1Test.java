@@ -8,7 +8,7 @@ class Day12Problem1Test {
 
     @Test
     void shouldWork() {
-        int result = new Day12Problem1_2().solve("day12-problem1-input-1");
+        int result = new Day12Problem1().solve("day12-problem1-input-1");
 
         assertThat(result).isEqualTo(140);
     }
