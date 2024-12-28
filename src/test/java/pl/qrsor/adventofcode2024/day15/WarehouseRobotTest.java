@@ -14,6 +14,17 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class WarehouseRobotTest {
 
+    private static final String WAREHOUSE_1 = """
+            ########
+            #..O.O.#
+            ##@.O..#
+            #...O..#
+            #.#.O..#
+            #...O..#
+            #......#
+            ########
+            """;
+
     public static char[][] convertTextBlockTo2DCharArray(String textBlock) {
         // Split the text block into lines
         String[] lines = textBlock.split("\n");
@@ -29,29 +40,33 @@ class WarehouseRobotTest {
         return charArray;
     }
 
+    private static List<Direction> convertStringToMoveDirections(String moveDirectionsString) {
+        return moveDirectionsString.chars()
+                .mapToObj(i -> (char) i)
+                .map(c -> switch (c) {
+                    case '^' -> Direction.UP;
+                    case '>' -> Direction.RIGHT;
+                    case 'v' -> Direction.DOWN;
+                    case '<' -> Direction.LEFT;
+                    default -> throw new IllegalStateException("Unexpected value: " + c);
+                }).toList();
+    }
+
+
     public static Stream<Arguments> warehouseRobotTest() {
         return Stream.of(
-                Arguments.of(List.of(Direction.UP), new Position(1, 2)),
-                Arguments.of(List.of(Direction.UP, Direction.UP), new Position(1, 2)),
-                Arguments.of(List.of(Direction.UP, Direction.LEFT), new Position(1, 1)),
-                Arguments.of(List.of(Direction.UP, Direction.RIGHT, Direction.RIGHT), new Position(1, 3))
+                Arguments.of(convertTextBlockTo2DCharArray(WAREHOUSE_1), convertStringToMoveDirections("^"), new Position(1, 2)),
+                Arguments.of(convertTextBlockTo2DCharArray(WAREHOUSE_1), convertStringToMoveDirections("^^"), new Position(1, 2)),
+                Arguments.of(convertTextBlockTo2DCharArray(WAREHOUSE_1), convertStringToMoveDirections("^<"), new Position(1, 1)),
+                Arguments.of(convertTextBlockTo2DCharArray(WAREHOUSE_1), convertStringToMoveDirections("^>>"), new Position(1, 4)),
+                Arguments.of(convertTextBlockTo2DCharArray(WAREHOUSE_1), convertStringToMoveDirections("<^^>>>vv<v>>v<<"), new Position(4, 4))
         );
     }
 
     @ParameterizedTest
     @MethodSource("warehouseRobotTest")
-    void shouldMoveRobotAccordingToDirection(List<Direction> moveDirections, Position expectedPosition) {
+    void shouldMoveRobotAccordingToDirection(char[][] warehouse, List<Direction> moveDirections, Position expectedPosition) {
         //given
-        var warehouse = convertTextBlockTo2DCharArray("""
-                ########
-                #..O.O.#
-                ##@.O..#
-                #...O..#
-                #.#.O..#
-                #...O..#
-                #......#
-                ########
-                """);
         var underTest = new WarehouseRobot(warehouse);
 
         //when
@@ -64,16 +79,7 @@ class WarehouseRobotTest {
     @Test
     void shouldMoveBoxInWarehouse() {
         //given
-        var warehouse = convertTextBlockTo2DCharArray("""
-                ########
-                #..O.O.#
-                ##@.O..#
-                #...O..#
-                #.#.O..#
-                #...O..#
-                #......#
-                ########
-                """);
+        var warehouse = convertTextBlockTo2DCharArray(WAREHOUSE_1);
         var underTest = new WarehouseRobot(warehouse);
 
         //when
@@ -81,6 +87,7 @@ class WarehouseRobotTest {
         var boxes = underTest.boxes();
 
         //then
+        assertThat(result).isEqualTo(new Position(1, 4));
         assertThat(boxes).doesNotContain(new Position(1, 3));
         assertThat(boxes).contains(new Position(1, 4));
     }

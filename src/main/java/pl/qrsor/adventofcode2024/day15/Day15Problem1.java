@@ -6,6 +6,7 @@ import java.util.List;
 
 class Day15Problem1 {
 
+    // 1478649
     public static void main(String[] args) {
         System.out.println("Result " + new Day15Problem1().solve("day15-problem1-input"));
     }
